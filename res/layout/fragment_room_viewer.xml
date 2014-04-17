@@ -14,9 +14,9 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1" 
-            android:textSize="14dp"
-            android:text="@string/back" >
+            android:textSize="14sp"
+            android:text="@string/back"
+            android:layout_weight="1"  >
             
         </Button>
 
@@ -24,6 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/load_room" 
+            android:textSize="14sp"
             android:layout_weight="1" >
             
         </Button>
@@ -32,6 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/create_room" 
+            android:textSize="14sp"
             android:layout_weight="1" >
             
         </Button>
@@ -40,6 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/delete_room" 
+            android:textSize="14sp"
             android:layout_weight="1" >
             
         </Button>
@@ -67,6 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/create_furniture" 
+            android:textSize="14sp"
             android:layout_weight="1" >
             
         </Button>
@@ -75,6 +79,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/lookup_furniture" 
+            android:textSize="14sp"
             android:layout_weight="1" >
             
         </Button>
@@ -83,6 +88,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/modify_room" 
+            android:textSize="14sp"
             android:layout_weight="1" >
             
         </Button>
@@ -91,6 +97,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/view_furniture" 
+            android:textSize="14sp"
             android:layout_weight="1" >
             
         </Button>
