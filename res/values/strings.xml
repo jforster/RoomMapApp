@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">RoomMapApp</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="back">Back</string>
+    <string name="load_room">Load Room</string>
+    <string name="create_room">Create Room</string>
+    <string name="delete_room">Delete Room</string>
+    <string name="create_furniture">Create Furniture</string>
+    <string name="lookup_furniture">Lookup Furniture</string>
+    <string name="modify_room">Modify Room</string>
+    <string name="view_furniture">View Furniture</string>
+
+</resources>
