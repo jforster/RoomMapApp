@@ -1,0 +1,20 @@
+<sql>
+<statement>
+CREATE TABLE IF NOT EXISTS furniture (
+        guid INTEGER PRIMARY KEY AUTOINCREMENT, 
+        room_number VARCHAR(50),  
+        base INTEGER, 
+        height INTEGER,
+        center_x INTEGER,
+        center_y INTEGER,
+        shape VARCHAR(50),
+        type VARCHAR(50))
+</statement>
+<statement>
+CREATE TABLE IF NOT EXISTS rooms (
+        room_number INTEGER PRIMARY KEY AUTOINCREMENT, 
+         VARCHAR(50),  
+        width INTEGER, 
+        height INTEGER)
+</statement>
+</sql>
