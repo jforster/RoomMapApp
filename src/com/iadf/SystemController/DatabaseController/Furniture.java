@@ -6,8 +6,8 @@ public class Furniture {
 	
 	private int GUID;
 	private int ROOM_NUMBER;
-	private int base;
-	private int height;
+	private int width;
+	private int length;
 	private int shape;
 	private Point center;
 	private int type;
@@ -19,11 +19,11 @@ public class Furniture {
 	public static final int DEFAULT = 111;
 	public static final int CONTAINER = 222;
 	
-	public Furniture(int GUID, int ROOM_NUMBER, int base, int height, int shape, int x, int y, int type) {
+	public Furniture(int GUID, int ROOM_NUMBER, int width, int length, int shape, int x, int y, int type) {
 		setGUID(GUID);
 		setRoomNumber(ROOM_NUMBER);
-		setBase(base);
-		setHeight(height);
+		setWidth(width);
+		setLength(length);
 		setShape(shape);
 		setCenter(x, y);
 		setType(type);
@@ -31,11 +31,11 @@ public class Furniture {
 	
 	@Override
 	public String toString() {
-		return this.GUID + ", " + this.ROOM_NUMBER + ", " + this.base + ", " + this.height + ", " + this.shape + ", " + this.center.x + ", " + this.center.y + ", " + this.type;
+		return this.GUID + ", " + this.ROOM_NUMBER + ", " + this.width + ", " + this.length + ", " + this.shape + ", " + this.center.x + ", " + this.center.y + ", " + this.type;
 	}
 	
 	public String sqlUpdateString() {
-		return "GUID = " + this.GUID + ", room_number = " + this.ROOM_NUMBER + ", base = " + this.base + ", height = " + this.height + 
+		return "_id = " + this.GUID + ", room_number = " + this.ROOM_NUMBER + ", width = " + this.width + ", length = " + this.length + 
 				", shape = " + this.shape + ", center_x" + this.center.x + ", center_y" + this.center.y + ", type = " + this.type;
 	}
 	
@@ -66,26 +66,26 @@ public class Furniture {
 	/**
 	 * @return the base
 	 */
-	public int getBase() {
-		return base;
+	public int getWidth() {
+		return width;
 	}
 	/**
 	 * @param base the base to set
 	 */
-	public void setBase(int base) {
-		this.base = base;
+	public void setWidth(int width) {
+		this.width = width;
 	}
 	/**
 	 * @return the height
 	 */
-	public int getHeight() {
-		return height;
+	public int getLength() {
+		return length;
 	}
 	/**
 	 * @param height the height to set
 	 */
-	public void setHeight(int height) {
-		this.height = height;
+	public void setLength(int length) {
+		this.length = length;
 	}
 	/**
 	 * @return the shape

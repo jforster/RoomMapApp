@@ -51,16 +51,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         
         public Cursor lookupFurniture(SQLiteDatabase db, Furniture furniture) {
-        	return db.rawQuery("SELECT * FROM furniture WHERE GUID = " + furniture.getGUID() , null);
+        	return db.rawQuery("SELECT * FROM furniture WHERE _id = " + furniture.getGUID() , null);
         }
         
         public void addFurniture(SQLiteDatabase db, Furniture furniture) {
-        	db.execSQL("INSERT INTO furniture (GUID, room_number, center_x, center_y, base, height, shape, type) VALUES (" + furniture + ")");
+        	db.execSQL("INSERT INTO furniture (_id, room_number, center_x, center_y, width, length, shape, type) VALUES (" + furniture + ")");
         }
         
         
         public void addRoom(SQLiteDatabase db, int width, int height) {
-        	db.execSQL("INSERT INTO rooms (width, height) VALUES (" + width + ", " + height + ")");
+        	db.execSQL("INSERT INTO rooms (width, length) VALUES (" + width + ", " + height + ")");
         }
         
         
@@ -75,17 +75,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         
         
         public void deleteFurniture(SQLiteDatabase db, Furniture furniture) {
-        	db.rawQuery("DELETE FROM furniture WHERE GUID = " + furniture.getGUID(), null);
+        	db.rawQuery("DELETE FROM furniture WHERE _id = " + furniture.getGUID(), null);
         }
         
         
-        public void modifyRoom(SQLiteDatabase db, int roomNumber, int width, int height) {
-        	db.rawQuery("UPDATE rooms SET width = " + width + ", height = " + height + " WHERE room_number = " , null);
+        public void modifyRoom(SQLiteDatabase db, int roomNumber, int width, int length) {
+        	db.rawQuery("UPDATE rooms SET width = " + width + ", length = " + length + " WHERE room_number = " , null);
         }
         
         
         public void modifyFurniture(SQLiteDatabase db, Furniture furniture) {
-        	db.rawQuery("UPDATE furniture SET " + furniture.sqlUpdateString() + "WHERE GUID = " + furniture.getGUID(), null);
+        	db.rawQuery("UPDATE furniture SET " + furniture.sqlUpdateString() + "WHERE _id = " + furniture.getGUID(), null);
         }
         
 
