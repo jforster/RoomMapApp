@@ -8,13 +8,18 @@
         android:id="@+id/TopButtons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" 
-        android:layout_weight="1">
+        android:divider="@drawable/my_divider"
+        android:dividerPadding="12dip"
+    	android:showDividers="middle"
+        android:orientation="horizontal"
+        android:background="?android:attr/dividerHorizontal" >
 
          <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="loadRoom"
             android:text="@string/load_room" 
+            android:background="?android:attr/selectableItemBackground"
             android:textSize="14sp"
             android:layout_weight="1" >
             
@@ -23,7 +28,10 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/create_room" 
+            android:onClick="createRoom"
+            android:text="@string/create_room"
+            style="?android:attr/buttonBarButtonStyle"
+            android:background="?android:attr/selectableItemBackground"
             android:textSize="14sp"
             android:layout_weight="1" >
             
@@ -32,7 +40,10 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/delete_room" 
+            android:onClick="deleteRoom"
+            android:text="@string/delete_room"
+            style="?android:attr/borderlessButtonStyle"
+            android:background="?android:attr/selectableItemBackground"
             android:textSize="14sp"
             android:layout_weight="1" >
             
@@ -55,12 +66,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" 
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:divider="@drawable/my_divider"
+        android:dividerPadding="12dip"
+    	android:showDividers="middle"
+        android:background="?android:attr/dividerHorizontal" >
         
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="createFurniture"
             android:text="@string/create_furniture" 
+            android:background="?android:attr/selectableItemBackground"
             android:textSize="14sp"
             android:layout_weight="1" >
             
@@ -70,6 +87,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/lookup_furniture" 
+            android:background="?android:attr/selectableItemBackground"
+            android:onClick="lookupFurniture"
             android:textSize="14sp"
             android:layout_weight="1" >
             
@@ -78,7 +97,9 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="modifyFurniture"
             android:text="@string/modify_room" 
+            android:background="?android:attr/selectableItemBackground"
             android:textSize="14sp"
             android:layout_weight="1" >
             
@@ -87,7 +108,9 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="viewFurniture"
             android:text="@string/view_furniture" 
+            android:background="?android:attr/selectableItemBackground"
             android:textSize="14sp"
             android:layout_weight="1" >
             
