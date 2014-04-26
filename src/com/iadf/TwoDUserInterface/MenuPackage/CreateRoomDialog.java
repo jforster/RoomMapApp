@@ -15,7 +15,7 @@ import android.widget.NumberPicker;
 
 
 
-public class LengthAndWidthAlertDialog extends DialogFragment {
+public class CreateRoomDialog extends DialogFragment {
 	
 	public interface LenghtAndWidthListener {
         public void onDialogPositiveClick(DialogFragment dialog, int length, int width);
@@ -65,29 +65,19 @@ public class LengthAndWidthAlertDialog extends DialogFragment {
 	               public void onClick(DialogInterface dialog, int id) {
 	            	   int width;
 	            	   int length;
-	            	   /*TextView tv = (TextView) v.findViewById(R.id.width);
-		       			width = Integer.parseInt(tv.getText().toString());
-		       			tv = (TextView) v.findViewById(R.id.length);
-		       			length = Integer.parseInt(tv.getText().toString());*/
 	            	   width = widthNP.getValue();
 	            	   length = lengthNP.getValue();
-	            	   mListener.onDialogPositiveClick(LengthAndWidthAlertDialog.this, length, width);
+	            	   mListener.onDialogPositiveClick(CreateRoomDialog.this, length, width);
 	               }
 	           })
 	           .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 	               public void onClick(DialogInterface dialog, int id) {
-	            	   mListener.onDialogNegativeClick(LengthAndWidthAlertDialog.this);
+	            	   mListener.onDialogNegativeClick(CreateRoomDialog.this);
 	                   dialog.cancel();
 	               }
 	           });  
 	    
-	    builder.setTitle(R.string.hello_world)
-        .setItems(R.array.shapes, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-            // The 'which' argument contains the index position
-            // of the selected item
-        }
- });
+	    builder.setTitle(R.string.room_dim);
 	    
 	    return builder.create();
 	}

@@ -2,7 +2,7 @@ package com.iadf.SystemController.DatabaseController;
 
 import android.graphics.Point;
 
-public abstract class Furniture {
+public class Furniture {
 	
 	private int GUID;
 	private int ROOM_NUMBER;
@@ -12,11 +12,11 @@ public abstract class Furniture {
 	private Point center;
 	private int type;
 	
-	public static final int TRIANGLE = 1;
-	public static final int RECTANGLE = 2;
-	public static final int CIRCLE = 3;
+	public static final int TRIANGLE = 2;
+	public static final int RECTANGLE = 0;
+	public static final int OVAL = 1;
 	
-	public static final int STACKABLE = 111;
+	public static final int DEFAULT = 111;
 	public static final int CONTAINER = 222;
 	
 	public Furniture(int GUID, int ROOM_NUMBER, int base, int height, int shape, int x, int y, int type) {

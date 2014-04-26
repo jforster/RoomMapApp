@@ -16,6 +16,11 @@
     <string name="width">Width</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+    <string name="room_dim">Enter Room Dimensions</string>
+    <string name="create_furniture_dim">Enter Furniture Parameters</string>
+    <string name="modify_furniture_dim">Modify Furniture Parameters</string>
+    <string name="container">Container?</string>
+    <string name="furniture_guid">Furniture GUID</string>
     
     <string-array name="shapes">
         <item>Rectangle</item>
