@@ -19,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,7 +36,7 @@ public class RoomViewer extends FragmentActivity implements LenghtAndWidthListen
 		setContentView(R.layout.room_viewer);
 		db = (new DatabaseHelper(this)).getWritableDatabase();
 		helper = new DatabaseHelper(this);
-
+		
 		if (savedInstanceState == null) {
 			getFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();

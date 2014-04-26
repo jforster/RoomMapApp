@@ -11,8 +11,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.NumberPicker;
 
 
 
@@ -50,6 +49,15 @@ public class LengthAndWidthAlertDialog extends DialogFragment {
 	    // Inflate and set the layout for the dialog
 	    // Pass null as the parent view because its going in the dialog layout
 	    final View v = inflater.inflate(R.layout.create_room_viewer, null);
+	    
+	    final NumberPicker widthNP = (NumberPicker) v.findViewById(R.id.widthNP);
+	    widthNP.setMaxValue(100000);
+	    widthNP.setMinValue(1);
+	    
+	    final NumberPicker lengthNP = (NumberPicker) v.findViewById(R.id.lengthNP);
+	    lengthNP.setMaxValue(100000);
+	    lengthNP.setMinValue(1);
+		
 	    builder.setView(v)
 	    // Add action buttons
 	           .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -57,10 +65,12 @@ public class LengthAndWidthAlertDialog extends DialogFragment {
 	               public void onClick(DialogInterface dialog, int id) {
 	            	   int width;
 	            	   int length;
-	            	   TextView tv = (TextView) v.findViewById(R.id.width);
+	            	   /*TextView tv = (TextView) v.findViewById(R.id.width);
 		       			width = Integer.parseInt(tv.getText().toString());
 		       			tv = (TextView) v.findViewById(R.id.length);
-		       			length = Integer.parseInt(tv.getText().toString());
+		       			length = Integer.parseInt(tv.getText().toString());*/
+	            	   width = widthNP.getValue();
+	            	   length = lengthNP.getValue();
 	            	   mListener.onDialogPositiveClick(LengthAndWidthAlertDialog.this, length, width);
 	               }
 	           })
@@ -69,7 +79,16 @@ public class LengthAndWidthAlertDialog extends DialogFragment {
 	            	   mListener.onDialogNegativeClick(LengthAndWidthAlertDialog.this);
 	                   dialog.cancel();
 	               }
-	           });      
+	           });  
+	    
+	    builder.setTitle(R.string.hello_world)
+        .setItems(R.array.shapes, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+            // The 'which' argument contains the index position
+            // of the selected item
+        }
+ });
+	    
 	    return builder.create();
 	}
 }
