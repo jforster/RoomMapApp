@@ -46,11 +46,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         
         
-        public Cursor selectRoom(SQLiteDatabase db, int roomNumber) {
+        public Cursor openRoom(SQLiteDatabase db, int roomNumber) {
         	return db.rawQuery("SELECT * FROM rooms ", null); //WHERE room_number = " + roomNumber , null);
         }
         
-        public Cursor selectFurniture(SQLiteDatabase db, Furniture furniture) {
+        public Cursor lookupFurniture(SQLiteDatabase db, Furniture furniture) {
         	return db.rawQuery("SELECT * FROM furniture WHERE GUID = " + furniture.getGUID() , null);
         }
         

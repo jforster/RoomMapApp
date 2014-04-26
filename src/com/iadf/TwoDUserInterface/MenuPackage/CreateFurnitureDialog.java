@@ -21,10 +21,6 @@ import android.widget.NumberPicker;
 
 public class CreateFurnitureDialog extends DialogFragment {
 	
-	public interface FurnitureListener {
-        public void onFurnitureDialogPositiveClick(DialogFragment dialog, Furniture furniture);
-        public void onFurnitureDialogNegativeClick(DialogFragment dialog);
-    }
 
 	FurnitureListener mListener;
 	int shape;

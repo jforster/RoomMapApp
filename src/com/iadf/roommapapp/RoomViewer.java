@@ -3,9 +3,10 @@ package com.iadf.roommapapp;
 import com.iadf.FurnitureDatabase.LocalDatabaseConnection.DatabaseHelper;
 import com.iadf.SystemController.DatabaseController.Furniture;
 import com.iadf.TwoDUserInterface.MenuPackage.CreateFurnitureDialog;
-import com.iadf.TwoDUserInterface.MenuPackage.CreateFurnitureDialog.FurnitureListener;
+import com.iadf.TwoDUserInterface.MenuPackage.FurnitureListener;
 import com.iadf.TwoDUserInterface.MenuPackage.CreateRoomDialog;
 import com.iadf.TwoDUserInterface.MenuPackage.CreateRoomDialog.LenghtAndWidthListener;
+import com.iadf.TwoDUserInterface.MenuPackage.LookupFurnitureDialog;
 
 import android.app.Fragment;
 import android.content.SharedPreferences;
@@ -34,6 +35,13 @@ public class RoomViewer extends FragmentActivity implements LenghtAndWidthListen
 	int length;
 	int roomNumber;
 	Furniture selectedFurniture;
+	int operation;
+	
+	static final int CREATE = 1;
+	static final int LOOKUP = 2;
+	static final int  MODIFY = 3;
+	static final int VIEW = 4;
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -89,8 +97,8 @@ public class RoomViewer extends FragmentActivity implements LenghtAndWidthListen
 	public void loadRoom(View v) {
 		
 		
-		Cursor c = helper.selectRoom(db, 1);
-		Toast.makeText(this, Integer.toString(c.getCount()), Toast.LENGTH_LONG).show();
+		//Cursor c = helper.lookupRoom(db, 1);
+		//Toast.makeText(this, Integer.toString(c.getCount()), Toast.LENGTH_LONG).show();
     }
 	
 	public void createRoom(View v) {
@@ -109,11 +117,15 @@ public class RoomViewer extends FragmentActivity implements LenghtAndWidthListen
 	
 	public void createFurniture(View v) {
 		DialogFragment d = new CreateFurnitureDialog();
+		operation = RoomViewer.CREATE;
 		d.show(getSupportFragmentManager(), "CreateFurnitureDialog");
+		
     }
 	
 	public void lookupFurniture(View v) {
-        
+        DialogFragment d = new LookupFurnitureDialog();
+        operation = RoomViewer.LOOKUP;
+        d.show(getSupportFragmentManager(), "LookupFurnitureDialog");
     }
 	
 	public void modifyFurniture(View v) {
@@ -144,10 +156,18 @@ public class RoomViewer extends FragmentActivity implements LenghtAndWidthListen
 	}
 	
 	@Override
-	public void onFurnitureDialogPositiveClick(DialogFragment dialog, Furniture furniture) {
+	public void onFurnitureDialogPositiveClick(DialogFragment dialog, Furniture furniture){
+		switch(operation) {
+			case RoomViewer.MODIFY:{}; break;
+			case RoomViewer.VIEW: {}; break;
+			case RoomViewer.LOOKUP: {Cursor c = helper.lookupFurniture(db, furniture); 
+			Toast.makeText(this, c.getCount() + "", Toast.LENGTH_LONG).show(); }; break; //Needs to load a room with that piece of furniture
+			case RoomViewer.CREATE: { helper.addFurniture(db, furniture);
+			Toast.makeText(this, furniture.sqlUpdateString(), Toast.LENGTH_LONG).show(); } break;
+			default: {System.out.println("Error");} break;
+		}
 		selectedFurniture = furniture;
-		helper.addFurniture(db, furniture);
-		Toast.makeText(this, furniture.sqlUpdateString(), Toast.LENGTH_LONG).show();
+		
 		dialog.dismiss();
 	}
 
