@@ -45,9 +45,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 }
         }
         
+        public Cursor viewRooms(SQLiteDatabase db) {
+        	return db.rawQuery("SELECT * FROM rooms ", null);
+        }
         
         public Cursor openRoom(SQLiteDatabase db, int roomNumber) {
-        	return db.rawQuery("SELECT * FROM rooms ", null); //WHERE room_number = " + roomNumber , null);
+        	return db.rawQuery("SELECT * FROM rooms ", null); //WHERE _id = " + roomNumber , null);
         }
         
         public Cursor lookupFurniture(SQLiteDatabase db, Furniture furniture) {
@@ -70,7 +73,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         
         
         public void deleteRoom(SQLiteDatabase db, int roomNumber) {
-        	db.rawQuery("DELETE FROM rooms WHERE room_number = " + roomNumber, null);
+        	db.rawQuery("DELETE FROM rooms WHERE _id = " + roomNumber, null);
         }
         
         
@@ -80,7 +83,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         
         
         public void modifyRoom(SQLiteDatabase db, int roomNumber, int width, int length) {
-        	db.rawQuery("UPDATE rooms SET width = " + width + ", length = " + length + " WHERE room_number = " , null);
+        	db.rawQuery("UPDATE rooms SET width = " + width + ", length = " + length + " WHERE _id = " , null);
         }
         
         

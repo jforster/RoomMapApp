@@ -31,5 +31,8 @@ public interface RoomController {
         
         
         public void modifyFurniture(Object db, Furniture furniture);
+
+
+		public Cursor viewRooms(Object db);
         
 }
