@@ -85,7 +85,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         
         
         public void modifyFurniture(SQLiteDatabase db, Furniture furniture) {
-        	db.rawQuery("UPDATE furniture SET " + furniture.sqlUpdateString() + "WHERE _id = " + furniture.getGUID(), null);
+        	db.rawQuery("UPDATE furniture SET " + furniture.dbUpdateString() + "WHERE _id = " + furniture.getGUID(), null);
         }
         
 
