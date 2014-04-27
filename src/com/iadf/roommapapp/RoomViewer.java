@@ -19,6 +19,7 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -137,10 +138,9 @@ public class RoomViewer extends FragmentActivity implements LenghtAndWidthListen
     }
 	
 	public void viewFurniture(View v) {
+	    operation = RoomViewer.VIEW;
 		DialogFragment d = new ViewFurnitureDialog();
-        operation = RoomViewer.VIEW;
-        d.show(getSupportFragmentManager(), "ViewFurnitureDialog");
-		
+		d.show(getSupportFragmentManager(), "ViewFurnitureDialog");
 		//helper.addFurniture(db, null);
     }
 
@@ -160,17 +160,18 @@ public class RoomViewer extends FragmentActivity implements LenghtAndWidthListen
 	}
 	
 	@Override
-	public void onFurnitureDialogPositiveClick(DialogFragment dialog, Furniture furniture){
+	public void onFurnitureDialogPositiveClick(DialogFragment dialog, Object f){
 		switch(operation) {
 			case RoomViewer.MODIFY:{}; break;
-			case RoomViewer.VIEW: {Toast.makeText(this, furniture.getGUID() + "", Toast.LENGTH_LONG).show();}; break;
-			case RoomViewer.LOOKUP: {Cursor c = helper.lookupFurniture(db, furniture); 
-			Toast.makeText(this, c.getCount() + "", Toast.LENGTH_LONG).show(); }; break; //Needs to load a room with that piece of furniture
-			case RoomViewer.CREATE: { helper.addFurniture(db, furniture);
-			Toast.makeText(this, furniture.dbUpdateString(), Toast.LENGTH_LONG).show(); } break;
+			case RoomViewer.VIEW: {RoomViewer.furnitureBuffer.setGUID((Integer) f);Toast.makeText(this, RoomViewer.furnitureBuffer.getGUID() + "", Toast.LENGTH_LONG).show();}; break;
+			case RoomViewer.LOOKUP: {Cursor c = helper.lookupFurniture(db, (Furniture) f); 
+			Toast.makeText(this, c.getCount() + "", Toast.LENGTH_LONG).show(); }; break;
+			case RoomViewer.CREATE: { helper.addFurniture(db, (Furniture) f);
+			Toast.makeText(this, ((Furniture)f).dbUpdateString(), Toast.LENGTH_LONG).show(); } break;
 			default: {System.out.println("Error");} break;
 		}
-		selectedFurniture = furniture;
+		
+		//selectedFurniture = (Furniture) f;
 		
 		dialog.dismiss();
 	}
@@ -184,6 +185,5 @@ public class RoomViewer extends FragmentActivity implements LenghtAndWidthListen
 	public void onCheckboxClicked(View v) {
 		
 	}
-	
 
 }

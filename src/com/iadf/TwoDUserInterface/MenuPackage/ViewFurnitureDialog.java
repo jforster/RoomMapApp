@@ -10,6 +10,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
@@ -63,16 +64,17 @@ public class ViewFurnitureDialog extends DialogFragment {
                 new String[] {"_id"}, 
                 new int[] {R.id.a_guid},
                 0);
-	    ListView mFurnitureList = (ListView)v.findViewById(R.id.furniture_list);
+	    final ListView mFurnitureList = (ListView)v.findViewById(R.id.furniture_list);
 	    mFurnitureList.setAdapter(adapter);
 	    
 	    mFurnitureList.setOnItemClickListener(new OnItemClickListener() {
 	    	@Override
 			public void onItemClick(final AdapterView<?> parentView, View view, int position, long id) {
-	    		Cursor c = (Cursor) adapter.getItem(position);
-	    		if(c.moveToFirst()) {
-	    		   id = c.getColumnIndex("_id");
-	    		}
+	    	   ((ListView) parentView).setItemChecked(position, true);
+	        	Cursor item = (Cursor) ((ListView) parentView).getAdapter().getItem(position);
+	        	if(item.moveToPosition(position)) {
+	        		mListener.onFurnitureDialogPositiveClick(ViewFurnitureDialog.this, (Object) item.getInt(0));
+	        	}
 	    	}
 	    });
 
