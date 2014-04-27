@@ -79,7 +79,7 @@ public class ViewRoomDialog extends DialogFragment {
 	    });
 
     builder.setView(v);
-    builder.setTitle(R.string.select_furniture);
+    builder.setTitle(R.string.select_room);
     return builder.create();
 	}
 }

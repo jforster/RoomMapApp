@@ -73,7 +73,7 @@ public class ModifyRoomDialog extends DialogFragment {
 	               }
 	           });  
 	    
-	    builder.setTitle(R.string.room_dim);
+	    builder.setTitle(R.string.modify_room_dim);
 	    
 	    return builder.create();
 	}

@@ -72,7 +72,7 @@ public class LookupFurnitureDialog extends DialogFragment {
                }
            });  
     
-    builder.setTitle(R.string.room_dim);
+    builder.setTitle(R.string.furniture_lookup);
     return builder.create();
 	}
 }
