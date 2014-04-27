@@ -6,8 +6,10 @@ import com.iadf.TwoDUserInterface.MenuPackage.CreateFurnitureDialog;
 import com.iadf.TwoDUserInterface.MenuPackage.FurnitureListener;
 import com.iadf.TwoDUserInterface.MenuPackage.CreateRoomDialog;
 import com.iadf.TwoDUserInterface.MenuPackage.CreateRoomDialog.LenghtAndWidthListener;
+import com.iadf.TwoDUserInterface.MenuPackage.ListOnClick;
 import com.iadf.TwoDUserInterface.MenuPackage.LookupFurnitureDialog;
 import com.iadf.TwoDUserInterface.MenuPackage.ViewFurnitureDialog;
+import com.iadf.TwoDUserInterface.MenuPackage.ViewFurnitureListFragment;
 
 import android.app.Fragment;
 import android.content.SharedPreferences;
@@ -19,6 +21,7 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,7 +31,7 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class RoomViewer extends FragmentActivity implements LenghtAndWidthListener, FurnitureListener {
+public class RoomViewer extends FragmentActivity implements LenghtAndWidthListener, FurnitureListener,ListOnClick {
 	
 	public static SQLiteDatabase db;
 	public static DatabaseHelper helper;
@@ -137,10 +140,9 @@ public class RoomViewer extends FragmentActivity implements LenghtAndWidthListen
     }
 	
 	public void viewFurniture(View v) {
+	    operation = RoomViewer.VIEW;
 		DialogFragment d = new ViewFurnitureDialog();
-        operation = RoomViewer.VIEW;
-        d.show(getSupportFragmentManager(), "ViewFurnitureDialog");
-		
+		d.show(getSupportFragmentManager(), "ViewFurnitureDialog");
 		//helper.addFurniture(db, null);
     }
 
@@ -160,17 +162,18 @@ public class RoomViewer extends FragmentActivity implements LenghtAndWidthListen
 	}
 	
 	@Override
-	public void onFurnitureDialogPositiveClick(DialogFragment dialog, Furniture furniture){
+	public void onFurnitureDialogPositiveClick(DialogFragment dialog, Object f){
 		switch(operation) {
 			case RoomViewer.MODIFY:{}; break;
-			case RoomViewer.VIEW: {Toast.makeText(this, furniture.getGUID() + "", Toast.LENGTH_LONG).show();}; break;
-			case RoomViewer.LOOKUP: {Cursor c = helper.lookupFurniture(db, furniture); 
+			case RoomViewer.VIEW: {RoomViewer.furnitureBuffer.setGUID((Integer) f);Toast.makeText(this, RoomViewer.furnitureBuffer.getGUID() + "", Toast.LENGTH_LONG).show();}; break;
+			case RoomViewer.LOOKUP: {Cursor c = helper.lookupFurniture(db, (Furniture) f); 
 			Toast.makeText(this, c.getCount() + "", Toast.LENGTH_LONG).show(); }; break; //Needs to load a room with that piece of furniture
-			case RoomViewer.CREATE: { helper.addFurniture(db, furniture);
-			Toast.makeText(this, furniture.sqlUpdateString(), Toast.LENGTH_LONG).show(); } break;
+			case RoomViewer.CREATE: { helper.addFurniture(db, (Furniture) f);
+			Toast.makeText(this, ((Furniture) f).sqlUpdateString(), Toast.LENGTH_LONG).show(); } break;
 			default: {System.out.println("Error");} break;
 		}
-		selectedFurniture = furniture;
+		
+		//selectedFurniture = (Furniture) f;
 		
 		dialog.dismiss();
 	}
@@ -182,6 +185,18 @@ public class RoomViewer extends FragmentActivity implements LenghtAndWidthListen
 	}
 	
 	public void onCheckboxClicked(View v) {
+		
+	}
+
+	@Override
+	public void onListClick(ListFragment lv, Object f) {
+		this.furnitureBuffer.setGUID((Integer) f);
+		
+	}
+
+	@Override
+	public void onListClick(ViewFurnitureListFragment lv, Object item) {
+		this.furnitureBuffer.setGUID((Integer) item);
 		
 	}
 	
