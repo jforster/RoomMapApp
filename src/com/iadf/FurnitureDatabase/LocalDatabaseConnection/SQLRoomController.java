@@ -103,7 +103,7 @@ public class SQLRoomController extends SQLiteOpenHelper implements RoomControlle
 	@Override
 	public void modifyFurniture(Object db, Furniture furniture) {
 		SQLiteDatabase database = (SQLiteDatabase) db;
-		database.rawQuery("UPDATE furniture SET " + furniture.sqlUpdateString() + "WHERE _id = " + furniture.getGUID(), null);
+		database.rawQuery("UPDATE furniture SET " + furniture.dbUpdateString() + "WHERE _id = " + furniture.getGUID(), null);
 		
 	}
 

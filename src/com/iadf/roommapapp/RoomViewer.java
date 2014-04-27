@@ -167,7 +167,7 @@ public class RoomViewer extends FragmentActivity implements LenghtAndWidthListen
 			case RoomViewer.LOOKUP: {Cursor c = helper.lookupFurniture(db, furniture); 
 			Toast.makeText(this, c.getCount() + "", Toast.LENGTH_LONG).show(); }; break; //Needs to load a room with that piece of furniture
 			case RoomViewer.CREATE: { helper.addFurniture(db, furniture);
-			Toast.makeText(this, furniture.sqlUpdateString(), Toast.LENGTH_LONG).show(); } break;
+			Toast.makeText(this, furniture.dbUpdateString(), Toast.LENGTH_LONG).show(); } break;
 			default: {System.out.println("Error");} break;
 		}
 		selectedFurniture = furniture;

@@ -2,7 +2,7 @@ package com.iadf.SystemController.DatabaseController;
 
 import android.graphics.Point;
 
-public class Furniture {
+public class Furniture implements DatabaseUpdateStrings{
 	
 	private int GUID;
 	private int ROOM_NUMBER;
@@ -34,7 +34,7 @@ public class Furniture {
 		return this.GUID + ", " + this.ROOM_NUMBER + ", " + this.width + ", " + this.length + ", " + this.shape + ", " + this.center.x + ", " + this.center.y + ", " + this.type;
 	}
 	
-	public String sqlUpdateString() {
+	public String dbUpdateString() {
 		return "_id = " + this.GUID + ", room_number = " + this.ROOM_NUMBER + ", width = " + this.width + ", length = " + this.length + 
 				", shape = " + this.shape + ", center_x" + this.center.x + ", center_y" + this.center.y + ", type = " + this.type;
 	}
