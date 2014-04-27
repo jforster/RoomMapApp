@@ -45,9 +45,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 }
         }
         
+        public Cursor viewRooms(SQLiteDatabase db) {
+        	return db.rawQuery("SELECT * FROM rooms ", null);
+        }
         
         public Cursor openRoom(SQLiteDatabase db, int roomNumber) {
-        	return db.rawQuery("SELECT * FROM rooms ", null); //WHERE room_number = " + roomNumber , null);
+        	return db.rawQuery("SELECT * FROM rooms ", null); //WHERE _id = " + roomNumber , null);
         }
         
         public Cursor lookupFurniture(SQLiteDatabase db, Furniture furniture) {
@@ -70,22 +73,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         
         
         public void deleteRoom(SQLiteDatabase db, int roomNumber) {
-        	db.rawQuery("DELETE FROM rooms WHERE room_number = " + roomNumber, null);
+        	db.execSQL("DELETE FROM rooms WHERE _id = " + roomNumber);
         }
         
         
         public void deleteFurniture(SQLiteDatabase db, Furniture furniture) {
-        	db.rawQuery("DELETE FROM furniture WHERE _id = " + furniture.getGUID(), null);
+        	db.execSQL("DELETE FROM furniture WHERE _id = " + furniture.getGUID());
         }
         
         
         public void modifyRoom(SQLiteDatabase db, int roomNumber, int width, int length) {
-        	db.rawQuery("UPDATE rooms SET width = " + width + ", length = " + length + " WHERE room_number = " , null);
+        	db.execSQL("UPDATE rooms SET width = " + width + ", length = " + length + " WHERE _id = ");
         }
         
         
         public void modifyFurniture(SQLiteDatabase db, Furniture furniture) {
-        	db.rawQuery("UPDATE furniture SET " + furniture.dbUpdateString() + "WHERE _id = " + furniture.getGUID(), null);
+        	db.execSQL("UPDATE furniture SET " + furniture.dbUpdateString() + "WHERE _id = " + furniture.getGUID());
         }
         
 

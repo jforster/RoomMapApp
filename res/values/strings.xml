@@ -17,11 +17,14 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="room_dim">Enter Room Dimensions</string>
+    <string name="modify_room_dim">Enter New Room Dimensions</string>
     <string name="create_furniture_dim">Enter Furniture Parameters</string>
     <string name="modify_furniture_dim">Modify Furniture Parameters</string>
     <string name="container">Container?</string>
     <string name="furniture_guid">Furniture GUID</string>
     <string name="select_furniture">Select a Furniture Item</string>
+    <string name="select_room">Select a Room</string>
+    <string name="furniture_lookup">Enter a Furniture GUID</string>
     
     <string-array name="shapes">
         <item>Rectangle</item>

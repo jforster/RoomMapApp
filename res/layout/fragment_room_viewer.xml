@@ -50,17 +50,18 @@
         </Button>
 
     </LinearLayout>
-    
-    <LinearLayout
-        android:id="@+id/RoomViewer"
+
+        
+   <fragment android:name="com.iadf.roommapapp.RoomCanvas"
+        android:id="@+id/roomViewer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:layout_below="@+id/TopButtons"
         android:layout_above="@+id/BottomButtons" >
         
-    </LinearLayout>
-    
+    </fragment> 
+ 
     <LinearLayout
         android:id="@+id/BottomButtons"
         android:layout_width="match_parent"

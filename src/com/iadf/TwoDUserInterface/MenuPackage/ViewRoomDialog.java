@@ -22,12 +22,12 @@ import com.iadf.SystemController.DatabaseController.Furniture;
 import com.iadf.roommapapp.R;
 import com.iadf.roommapapp.RoomViewer;
 
-public class ViewFurnitureDialog extends DialogFragment {
+public class ViewRoomDialog extends DialogFragment {
 
 	DatabaseHelper helper = RoomViewer.helper;
 	int room = RoomViewer.roomNumber;
 	
-	Cursor c = helper.getFurnitureList(RoomViewer.db, room);
+	Cursor c = helper.viewRooms(RoomViewer.db);
 	
 	FurnitureListener mListener;
 	int id;
@@ -73,14 +73,13 @@ public class ViewFurnitureDialog extends DialogFragment {
 	    	   ((ListView) parentView).setItemChecked(position, true);
 	        	Cursor item = (Cursor) ((ListView) parentView).getAdapter().getItem(position);
 	        	if(item.moveToPosition(position)) {
-	        		mListener.onFurnitureDialogPositiveClick(ViewFurnitureDialog.this, (Object) item.getInt(0));
+	        		mListener.onFurnitureDialogPositiveClick(ViewRoomDialog.this, (Object) item.getInt(0));
 	        	}
 	    	}
 	    });
 
-    builder.setView(v);  
-    
-    builder.setTitle(R.string.select_furniture);
+    builder.setView(v);
+    builder.setTitle(R.string.select_room);
     return builder.create();
 	}
 }
