@@ -8,6 +8,7 @@ import com.iadf.TwoDUserInterface.MenuPackage.CreateRoomDialog;
 import com.iadf.TwoDUserInterface.MenuPackage.CreateRoomDialog.LenghtAndWidthListener;
 import com.iadf.TwoDUserInterface.MenuPackage.LookupFurnitureDialog;
 import com.iadf.TwoDUserInterface.MenuPackage.ViewFurnitureDialog;
+import com.iadf.TwoDUserInterface.MenuPackage.ViewRoomDialog;
 
 import android.app.Fragment;
 import android.content.SharedPreferences;
@@ -41,10 +42,13 @@ public class RoomViewer extends FragmentActivity implements LenghtAndWidthListen
 	int operation;
 	
 	static final int CREATE = 1;
-	static final int LOOKUP = 2;
-	static final int  MODIFY = 3;
+	static final int LOOKUP_FURNITURE = 2;
+	static final int LOAD_ROOM = 8;
+	static final int MODIFY_ROOM = 3;
+	static final int MODIFY_FURNITURE = 7;
 	static final int VIEW = 4;
-	
+	static final int DELETE_ROOM = 5;
+	static final int DELETE_FURNITURE = 6;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +103,9 @@ public class RoomViewer extends FragmentActivity implements LenghtAndWidthListen
 	
 	public void loadRoom(View v) {
 		
+		operation = RoomViewer.VIEW;
+		DialogFragment d = new ViewRoomDialog();
+		d.show(getSupportFragmentManager(), "ViewRoomDialog");
 		
 		//Cursor c = helper.lookupRoom(db, 1);
 		//Toast.makeText(this, Integer.toString(c.getCount()), Toast.LENGTH_LONG).show();
@@ -111,9 +118,9 @@ public class RoomViewer extends FragmentActivity implements LenghtAndWidthListen
     }
 	
 	public void deleteRoom(View v) {
-        
-		
-		 
+		operation = RoomViewer.DELETE_ROOM;
+		DialogFragment d = new ViewRoomDialog();
+		d.show(getSupportFragmentManager(), "ViewRoomDialog");   
 		//helper.addFurniture(db, null);
 
     }
@@ -127,12 +134,14 @@ public class RoomViewer extends FragmentActivity implements LenghtAndWidthListen
 	
 	public void lookupFurniture(View v) {
         DialogFragment d = new LookupFurnitureDialog();
-        operation = RoomViewer.LOOKUP;
+        operation = RoomViewer.LOOKUP_FURNITURE;
         d.show(getSupportFragmentManager(), "LookupFurnitureDialog");
     }
 	
 	public void modifyFurniture(View v) {
-        
+		operation = RoomViewer.MODIFY_ROOM;
+		DialogFragment d = new CreateRoomDialog();
+		d.show(getSupportFragmentManager(), "ViewRoomDialog");
 		
 		//helper.addFurniture(db, null);
     }
@@ -162,12 +171,36 @@ public class RoomViewer extends FragmentActivity implements LenghtAndWidthListen
 	@Override
 	public void onFurnitureDialogPositiveClick(DialogFragment dialog, Object f){
 		switch(operation) {
-			case RoomViewer.MODIFY:{}; break;
-			case RoomViewer.VIEW: {RoomViewer.furnitureBuffer.setGUID((Integer) f);Toast.makeText(this, RoomViewer.furnitureBuffer.getGUID() + "", Toast.LENGTH_LONG).show();}; break;
-			case RoomViewer.LOOKUP: {Cursor c = helper.lookupFurniture(db, (Furniture) f); 
-			Toast.makeText(this, c.getCount() + "", Toast.LENGTH_LONG).show(); }; break;
-			case RoomViewer.CREATE: { helper.addFurniture(db, (Furniture) f);
-			Toast.makeText(this, ((Furniture)f).dbUpdateString(), Toast.LENGTH_LONG).show(); } break;
+			case RoomViewer.DELETE_FURNITURE:{
+				helper.deleteFurniture(db, (Furniture) f);
+			}; break;
+			case RoomViewer.DELETE_ROOM:{
+				helper.deleteRoom(db, (Integer) f);
+			}; break;
+			case RoomViewer.MODIFY_FURNITURE:{
+				helper.modifyFurniture(db, (Furniture) f);
+			}; break;
+			//Furniture object is used as a buffer to hold the room number, room width and room length.  Look we saved a class!
+			case RoomViewer.MODIFY_ROOM: {
+				Furniture k = (Furniture)f;
+				helper.modifyRoom(db, k.getRoomNumber(), k.getWidth(), k.getLength());
+			} break;
+			case RoomViewer.VIEW: {
+				RoomViewer.furnitureBuffer.setGUID((Integer) f);
+				Toast.makeText(this, RoomViewer.furnitureBuffer.getGUID() + "", Toast.LENGTH_LONG).show();
+			};break;
+			case RoomViewer.LOOKUP_FURNITURE: {
+				Cursor c = helper.lookupFurniture(db, (Furniture) f); 
+				Toast.makeText(this, c.getCount() + "", Toast.LENGTH_LONG).show(); 
+			}; break;
+			case RoomViewer.LOAD_ROOM: {
+				Cursor c = helper.openRoom(db, (Integer) f); 
+				Toast.makeText(this, c.getCount() + "", Toast.LENGTH_LONG).show(); 
+			} break;
+			case RoomViewer.CREATE: { 
+				helper.addFurniture(db, (Furniture) f);
+				Toast.makeText(this, ((Furniture)f).dbUpdateString(), Toast.LENGTH_LONG).show(); 
+			};  break;
 			default: {System.out.println("Error");} break;
 		}
 		

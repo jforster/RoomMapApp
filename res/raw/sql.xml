@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS furniture (
 </statement>
 <statement>
 CREATE TABLE IF NOT EXISTS rooms (
-        room_number INTEGER PRIMARY KEY AUTOINCREMENT, 
+        _id INTEGER PRIMARY KEY AUTOINCREMENT, 
         width INTEGER, 
         length INTEGER)
 </statement>

@@ -46,7 +46,13 @@ public class SQLRoomController extends SQLiteOpenHelper implements RoomControlle
                      Toast.makeText(context, t.toString(), Toast.LENGTH_LONG).show();
              }
      }
-
+	 
+	 @Override
+	 public Cursor viewRooms(Object db) {
+		SQLiteDatabase database = (SQLiteDatabase) db;
+     	return database.rawQuery("SELECT * FROM rooms ", null);
+     }
+	
 	@Override
 	public Cursor openRoom(Object db, int roomNumber) {
 		SQLiteDatabase database = (SQLiteDatabase) db;
