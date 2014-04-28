@@ -78,25 +78,48 @@ public class RoomCanvas extends Fragment {
          // the method that draws the balls
          @Override 
          protected void onDraw(Canvas canvas) {
-             //canvas.drawColor(0xFFCCCCCC);     //if you want another background color       
+             //canvas.drawColor(0xFFCCCCCC);     //if you want another background color     
+        	 
+        	width = canvas.getWidth();
+          	height = canvas.getHeight();
+          	
+          	Paint paint = new Paint();
+          	
+          	paint.setColor(Color.BLACK);
+            paint.setStrokeWidth(5);
+            canvas.drawRect(95, 95, width - 95, height - 95, paint);
+            paint.setColor(Color.WHITE);
+            paint.setStrokeWidth(5);
+            canvas.drawRect(100, 100, width - 100, height - 100, paint);
              
          	//draw the balls on the canvas
          	for (Furniture furniture : furnitureItems) {
          		Bitmap bitmap;
          		if(furniture.getShape() == Furniture.OVAL) bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.oval);
          		else bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.rectangle);
-         		
          		Bitmap furnitureItem = Bitmap.createScaledBitmap(bitmap, furniture.getLength(), furniture.getWidth(), true);
          		Point p = furniture.getCenter();
                 canvas.drawBitmap(furnitureItem, p.x, p.y, null);
             }
-         	
-         	width = canvas.getWidth();
-         	height = canvas.getHeight();
-            
-         	
-         	
-         	//invalidate();
+     
+         }
+         
+         public int setX(int x) {
+        	 if(x < 102) {
+         		return 102;
+         	} else if(x > width - 100 - 2*xOffset) {
+         		return width - 100 - 2*xOffset;
+         	}
+         	return x;
+         }
+         
+         public int setY(int y) {
+         	if(y < 102) {
+         		return 102;
+         	} else if (y > height - 100 - 2*yOffset) {
+         		return height - 100 - 2*yOffset;
+         	}
+         	return y;
          }
 
          // events when touching the screen
@@ -114,17 +137,6 @@ public class RoomCanvas extends Fragment {
              		// check if inside the bounds of the ball (circle)
              		// get the center for the ball
              		Point p = furniture.getCenter();
-             		int centerX = p.x + furniture.getWidth()/2 + 1;
-             		int centerY = p.x + furniture.getLength()/2 + 1;
-             		
-             		// calculate the radius from the touch to the center of the ball
-             		double radCircle  = Math.sqrt( (double) (((centerX-X)*(centerX-X)) + (centerY-Y)*(centerY-Y)));
-             		
-             		// if the radius is smaller then 23 (radius of a ball is 22), then it must be on the ball
-             		/*if (radCircle < 23){
-             			balID = ball.getID();
-                         break;
-             		}*/
 
              		// check all the bounds of the ball (square)
              		if (X > p.x && X < p.x+furniture.getLength() && Y > p.y && Y < p.y+furniture.getWidth()){
@@ -142,10 +154,7 @@ public class RoomCanvas extends Fragment {
              	// move the balls the same as the finger
                  if (i >= 0) {
                 	f = furnitureItems.get(i);
-                	if(X < 50) {
-                		X = 50;
-                	} else if(X > width - 50)
-                	f.setCenter(X-xOffset, Y-yOffset);
+                	f.setCenter(setX(X-xOffset), setY(Y-yOffset));
                  	furnitureItems.set(i, f);
                  	
                  }

@@ -1,0 +1,58 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" >
+
+    <LinearLayout 
+	    android:orientation="horizontal"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content" >
+    
+	    <TextView android:layout_width="wrap_content"
+	   		android:layout_height="wrap_content"
+	   		android:layout_marginTop="16dp"
+	   		android:width="100dip"
+	   		android:textSize="24sp"
+	   		android:gravity="center_horizontal"
+	   		android:text="@string/width"
+	   		android:layout_weight="1" />
+	   
+	    <TextView android:layout_width="wrap_content"
+	   		android:layout_height="wrap_content"
+	   		android:layout_marginTop="16dp"
+	   		android:width="100dip"
+	   		android:textSize="24sp"
+	   		android:gravity="center_horizontal"
+	   		android:text="@string/length"
+	   		android:layout_weight="1" />
+    </LinearLayout>
+    
+    <LinearLayout 
+	    android:orientation="horizontal"
+	    android:layout_width="fill_parent"
+	    android:divider="@drawable/my_divider"
+        android:dividerPadding="12dip"
+    	android:showDividers="middle"
+	    android:layout_height="wrap_content" >
+    
+        <NumberPicker android:id="@+id/lengthNP"
+	   		android:layout_width="wrap_content"
+	   		android:layout_height="wrap_content"
+	   		android:width="100dip"
+	   		android:layout_weight="1" />
+        
+	    <NumberPicker android:id="@+id/widthNP"
+	   		android:layout_width="wrap_content"
+	   		android:layout_height="wrap_content"
+	   		android:width="100dip"
+	   		android:layout_weight="1" />
+    </LinearLayout>
+    
+    <CheckBox android:id="@+id/checkbox_meat"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_height="wrap_content"
+        android:text="@string/container"
+        android:onClick="onCheckboxClicked"/>
+</LinearLayout>

@@ -51,12 +51,14 @@ public class CreateRoomDialog extends DialogFragment {
 	    final View v = inflater.inflate(R.layout.create_room_viewer, null);
 	    
 	    final NumberPicker widthNP = (NumberPicker) v.findViewById(R.id.widthNP);
-	    widthNP.setMaxValue(100000);
+	    widthNP.setMaxValue(1000);
 	    widthNP.setMinValue(1);
+	    widthNP.setValue(25);
 	    
 	    final NumberPicker lengthNP = (NumberPicker) v.findViewById(R.id.lengthNP);
-	    lengthNP.setMaxValue(100000);
+	    lengthNP.setMaxValue(1000);
 	    lengthNP.setMinValue(1);
+	    lengthNP.setValue(50);
 		
 	    builder.setView(v)
 	    // Add action buttons

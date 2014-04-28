@@ -20,7 +20,7 @@ import android.widget.NumberPicker;
 
 
 
-public class CreateFurnitureDialog extends DialogFragment {
+public class ModifyFurnitureDialog extends DialogFragment {
 	
 
 	FurnitureListener mListener;
@@ -88,12 +88,12 @@ public class CreateFurnitureDialog extends DialogFragment {
 	            	   
 	            	   Furniture furniture = new Furniture((int)(Math.random()*1000000), RoomViewer.roomNumber, width, length, shape, 0, 0, type);
 	            	   
-	            	   mListener.onFurnitureDialogPositiveClick(CreateFurnitureDialog.this, furniture);
+	            	   mListener.onFurnitureDialogPositiveClick(ModifyFurnitureDialog.this, furniture);
 	               }
 	           })
 	           .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 	               public void onClick(DialogInterface dialog, int id) {
-	            	   mListener.onFurnitureDialogNegativeClick(CreateFurnitureDialog.this);
+	            	   mListener.onFurnitureDialogNegativeClick(ModifyFurnitureDialog.this);
 	                   dialog.cancel();
 	               }
 	           

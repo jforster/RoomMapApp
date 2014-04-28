@@ -10,6 +10,7 @@ import com.iadf.TwoDUserInterface.MenuPackage.LookupFurnitureDialog;
 import com.iadf.TwoDUserInterface.MenuPackage.ViewFurnitureDialog;
 import com.iadf.TwoDUserInterface.MenuPackage.ViewRoomDialog;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.SharedPreferences;
@@ -42,6 +43,8 @@ public class RoomViewer extends FragmentActivity implements LenghtAndWidthListen
 	Furniture selectedFurniture;
 	int operation;
 	
+	SharedPreferences sp;
+	
 	static final int CREATE = 1;
 	static final int LOOKUP_FURNITURE = 2;
 	static final int LOAD_ROOM = 8;
@@ -62,6 +65,26 @@ public class RoomViewer extends FragmentActivity implements LenghtAndWidthListen
 			getFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
+		
+		sp = getSharedPreferences("your_prefs", Activity.MODE_PRIVATE);
+		if(sp.contains("room_number")) RoomViewer.roomNumber = sp.getInt("room_number", -1);
+
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		sp = getSharedPreferences("your_prefs", Activity.MODE_PRIVATE);
+		SharedPreferences.Editor editor = sp.edit();
+		editor.putInt("room_number", roomNumber);
+		editor.commit();
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		sp = getSharedPreferences("your_prefs", Activity.MODE_PRIVATE);
+		if(sp.contains("room_number")) RoomViewer.roomNumber = sp.getInt("room_number", -1);
 	}
 
 	@Override
@@ -104,7 +127,8 @@ public class RoomViewer extends FragmentActivity implements LenghtAndWidthListen
 	
 	public void loadRoom(View v) {
 		
-		operation = RoomViewer.VIEW;
+		operation = RoomViewer.LOAD_ROOM;
+		
 		DialogFragment d = new ViewRoomDialog();
 		d.show(getSupportFragmentManager(), "ViewRoomDialog");
 		
@@ -156,7 +180,7 @@ public class RoomViewer extends FragmentActivity implements LenghtAndWidthListen
 
 	@Override
 	public void onDialogPositiveClick(DialogFragment dialog, int length, int width) {
-		Toast.makeText(this,length + " " + width, Toast.LENGTH_LONG).show();
+		//Toast.makeText(this,length + " " + width, Toast.LENGTH_LONG).show();
 		this.width = width;
 		this.length = length;
 		helper.addRoom(db, width, length);
@@ -177,6 +201,10 @@ public class RoomViewer extends FragmentActivity implements LenghtAndWidthListen
 			}; break;
 			case RoomViewer.DELETE_ROOM:{
 				helper.deleteRoom(db, (Integer) f);
+				RoomViewer.roomNumber = 1;
+				helper.openRoom(db, roomNumber);
+				finish();
+				startActivity(getIntent());
 			}; break;
 			case RoomViewer.MODIFY_FURNITURE:{
 				helper.modifyFurniture(db, (Furniture) f);
@@ -188,15 +216,30 @@ public class RoomViewer extends FragmentActivity implements LenghtAndWidthListen
 			} break;
 			case RoomViewer.VIEW: {
 				RoomViewer.furnitureBuffer.setGUID((Integer) f);
-				Toast.makeText(this, RoomViewer.furnitureBuffer.getGUID() + "", Toast.LENGTH_LONG).show();
+				Cursor c = helper.lookupFurniture(db, new Furniture((Integer) f, 0, 0, 0, 0, 0, 0, 0));
+				c.moveToFirst();
+				RoomViewer.roomNumber = c.getInt(1);
+				helper.openRoom(db, roomNumber);
+				finish();
+				startActivity(getIntent());
+				//Toast.makeText(this, RoomViewer.furnitureBuffer.getGUID() + "", Toast.LENGTH_LONG).show();
 			};break;
 			case RoomViewer.LOOKUP_FURNITURE: {
 				Cursor c = helper.lookupFurniture(db, (Furniture) f); 
-				Toast.makeText(this, c.getCount() + "", Toast.LENGTH_LONG).show(); 
+				if(c.moveToFirst()) {
+					RoomViewer.roomNumber = c.getInt(1);
+					helper.openRoom(db, roomNumber);
+					finish();
+					startActivity(getIntent());
+				} else {
+					Toast.makeText(this, "Furniture Not Found", Toast.LENGTH_LONG).show(); 
+				}
 			}; break;
 			case RoomViewer.LOAD_ROOM: {
 				Cursor c = helper.openRoom(db, (Integer) f); 
-				Toast.makeText(this, c.getCount() + "", Toast.LENGTH_LONG).show(); 
+				this.roomNumber = (Integer) f;
+				finish();
+				startActivity(getIntent());
 			} break;
 			case RoomViewer.CREATE: { 
 				helper.addFurniture(db, (Furniture) f);
