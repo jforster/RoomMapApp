@@ -36,7 +36,7 @@ public class Furniture implements DatabaseUpdateStrings{
 	
 	public String dbUpdateString() {
 		return "_id = " + this.GUID + ", room_number = " + this.ROOM_NUMBER + ", width = " + this.width + ", length = " + this.length + 
-				", shape = " + this.shape + ", center_x" + this.center.x + ", center_y" + this.center.y + ", type = " + this.type;
+				", shape = " + this.shape + ", center_x = " + this.center.x + ", center_y = " + this.center.y + ", type = " + this.type;
 	}
 	
 	/**

@@ -58,7 +58,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         
         public void addFurniture(SQLiteDatabase db, Furniture furniture) {
-        	db.execSQL("INSERT INTO furniture (_id, room_number, center_x, center_y, width, length, shape, type) VALUES (" + furniture + ")");
+        	db.execSQL("INSERT INTO furniture (_id, room_number, width, length, center_x, center_y, shape, type) VALUES (" + furniture + ")");
         }
         
         
@@ -88,7 +88,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         
         
         public void modifyFurniture(SQLiteDatabase db, Furniture furniture) {
-        	db.execSQL("UPDATE furniture SET " + furniture.dbUpdateString() + "WHERE _id = " + furniture.getGUID());
+        	db.execSQL("UPDATE furniture SET " + furniture.dbUpdateString() + " WHERE _id = " + furniture.getGUID());
         }
         
 

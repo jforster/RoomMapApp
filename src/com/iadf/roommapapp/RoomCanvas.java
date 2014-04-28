@@ -1,52 +1,78 @@
 package com.iadf.roommapapp;
 
 
+import java.util.ArrayList;
+
+import com.iadf.SystemController.DatabaseController.Furniture;
+
 import android.content.Context;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 public class RoomCanvas extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-    	return (new MyView(this.getActivity()));
+    	return (new RoomView(this.getActivity()));
         //return inflater.inflate(R.layout.room_canvas, container, true);
     }
     
-    
-    public class MyView extends View {
+    public void refresh() {
     	
-    	private ColorBall[] colorballs = new ColorBall[3]; // array that holds the balls
+    }
+    
+    
+    public class RoomView extends View {
+    	
+    	private ArrayList<Furniture> furnitureItems;
+    	private int i=-1;
+    	int xOffset = 25;
+    	int yOffset = 25;
+    	int width = 999999;
+    	int height = 999999;
+    	Furniture f;
         
-        public MyView(Context context) {
+        public RoomView(Context context) {
         	super(context);
             setFocusable(true); //necessary for getting the touch events
             
-            /*// setting the start point for the balls
-            Point point1 = new Point();
-            point1.x = 50;
-            point1.y = 20;
-            Point point2 = new Point();
-            point2.x = 100;
-            point2.y = 20;
-            Point point3 = new Point();
-            point3.x = 150;
-            point3.y = 20;
+            furnitureItems = createFurnitureList();
             
-                           
-            // declare each ball with the ColorBall class
-            colorballs[0] = new ColorBall(context,R.drawable.ball_blue, point1);
-            colorballs[1] = new ColorBall(context,R.drawable.ball_blue, point2);
-            colorballs[2] = new ColorBall(context,R.drawable.ball_blue, point3);*/
+        }
+        
+        
+        public ArrayList<Furniture> createFurnitureList() {
+        	ArrayList<Furniture> furniture = new ArrayList<Furniture>();
+            
+            Cursor c = RoomViewer.helper.getFurnitureList(RoomViewer.db, RoomViewer.roomNumber);
+            
+            c.moveToFirst();
+            while (c.isAfterLast() == false) 
+            {
+                Furniture f = new Furniture(c.getInt(0), c.getInt(1), c.getInt(2), c.getInt(3), c.getInt(4), c.getInt(5), c.getInt(6), c.getInt(7));
+                furniture.add(f);
+                c.moveToNext();
+            }
+            
+            return furniture;
+        }
+        
+        public boolean hasFurnitureChanged() {
+        	return !furnitureItems.equals(createFurnitureList());
         }
          
          // the method that draws the balls
@@ -55,9 +81,22 @@ public class RoomCanvas extends Fragment {
              //canvas.drawColor(0xFFCCCCCC);     //if you want another background color       
              
          	//draw the balls on the canvas
-         	for (ColorBall ball : colorballs) {
-                 canvas.drawBitmap(ball.getBitmap(), ball.getX(), ball.getY(), null);
-               }
+         	for (Furniture furniture : furnitureItems) {
+         		Bitmap bitmap;
+         		if(furniture.getShape() == Furniture.OVAL) bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.oval);
+         		else bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.rectangle);
+         		
+         		Bitmap furnitureItem = Bitmap.createScaledBitmap(bitmap, furniture.getLength(), furniture.getWidth(), true);
+         		Point p = furniture.getCenter();
+                canvas.drawBitmap(furnitureItem, p.x, p.y, null);
+            }
+         	
+         	width = canvas.getWidth();
+         	height = canvas.getHeight();
+            
+         	
+         	
+         	//invalidate();
          }
 
          // events when touching the screen
@@ -70,25 +109,28 @@ public class RoomCanvas extends Fragment {
              switch (eventaction ) { 
 
              case MotionEvent.ACTION_DOWN: // touch down so check if the finger is on a ball
-             	balID = 0;
-             	for (ColorBall ball : colorballs) {
+            	i = -1;
+             	for (Furniture furniture : furnitureItems) {
              		// check if inside the bounds of the ball (circle)
              		// get the center for the ball
-             		int centerX = ball.getX() + 25;
-             		int centerY = ball.getY() + 25;
+             		Point p = furniture.getCenter();
+             		int centerX = p.x + furniture.getWidth()/2 + 1;
+             		int centerY = p.x + furniture.getLength()/2 + 1;
              		
              		// calculate the radius from the touch to the center of the ball
              		double radCircle  = Math.sqrt( (double) (((centerX-X)*(centerX-X)) + (centerY-Y)*(centerY-Y)));
              		
              		// if the radius is smaller then 23 (radius of a ball is 22), then it must be on the ball
-             		if (radCircle < 23){
+             		/*if (radCircle < 23){
              			balID = ball.getID();
                          break;
-             		}
+             		}*/
 
              		// check all the bounds of the ball (square)
-             		if (X > ball.getX() && X < ball.getX()+100 && Y > ball.getY() && Y < ball.getY()+1000){
-                     	balID = ball.getID();
+             		if (X > p.x && X < p.x+furniture.getLength() && Y > p.y && Y < p.y+furniture.getWidth()){
+                     	i = furnitureItems.indexOf(furniture);
+                     	xOffset = furniture.getLength()/2 + 1;
+                     	yOffset = furniture.getWidth()/2 + 1;
                      	break;
                     }
                    }
@@ -98,17 +140,26 @@ public class RoomCanvas extends Fragment {
 
              case MotionEvent.ACTION_MOVE:   // touch drag with the ball
              	// move the balls the same as the finger
-                 if (balID > 0) {
-                 	colorballs[balID-1].setX(X-25);
-                 	colorballs[balID-1].setY(Y-25);
+                 if (i >= 0) {
+                	f = furnitureItems.get(i);
+                	if(X < 50) {
+                		X = 50;
+                	} else if(X > width - 50)
+                	f.setCenter(X-xOffset, Y-yOffset);
+                 	furnitureItems.set(i, f);
+                 	
                  }
              	
                  break; 
 
              case MotionEvent.ACTION_UP: 
             		// touch drop - just do things here after dropping
-
-                  break; 
+            	 xOffset = 25;
+             	 yOffset = 25;
+             	 if(f != null) {
+             		 RoomViewer.helper.modifyFurniture(RoomViewer.db, f);
+             	 }
+                 break; 
              } 
              // redraw the canvas
              invalidate(); 

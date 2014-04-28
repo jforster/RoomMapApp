@@ -11,6 +11,7 @@ import com.iadf.TwoDUserInterface.MenuPackage.ViewFurnitureDialog;
 import com.iadf.TwoDUserInterface.MenuPackage.ViewRoomDialog;
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.database.Cursor;
@@ -199,7 +200,8 @@ public class RoomViewer extends FragmentActivity implements LenghtAndWidthListen
 			} break;
 			case RoomViewer.CREATE: { 
 				helper.addFurniture(db, (Furniture) f);
-				Toast.makeText(this, ((Furniture)f).dbUpdateString(), Toast.LENGTH_LONG).show(); 
+				finish();
+				startActivity(getIntent());
 			};  break;
 			default: {System.out.println("Error");} break;
 		}
