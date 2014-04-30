@@ -1,8 +1,6 @@
 package com.iadf.TwoDUserInterface.MenuPackage;
 
 
-import com.iadf.roommapapp.R;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -13,8 +11,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.NumberPicker;
 
+import com.iadf.roommapapp.R;
 
 
+/**
+ * Displays a dialog to the user allowing them to create a new room and specify its dimensions
+ * 
+ * @author CSE324 Spring 2014 Team 4
+ */
 public class CreateRoomDialog extends DialogFragment {
 	
 	public interface LenghtAndWidthListener {

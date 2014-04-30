@@ -3,25 +3,26 @@ package com.iadf.TwoDUserInterface.MenuPackage;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.iadf.FurnitureDatabase.LocalDatabaseConnection.DatabaseHelper;
-import com.iadf.SystemController.DatabaseController.Furniture;
 import com.iadf.roommapapp.R;
 import com.iadf.roommapapp.RoomViewer;
 
+/**
+ * Displays a list of rooms and allows the user to select one to open
+ * 
+ * @author CSE324 Spring 2014 Team 4
+ */
 public class ViewRoomDialog extends DialogFragment {
 
 	DatabaseHelper helper = RoomViewer.helper;

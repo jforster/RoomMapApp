@@ -1,12 +1,6 @@
 package com.iadf.TwoDUserInterface.MenuPackage;
 
 
-import java.util.ArrayList;
-
-import com.iadf.SystemController.DatabaseController.Furniture;
-import com.iadf.roommapapp.R;
-import com.iadf.roommapapp.RoomViewer;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -18,8 +12,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.NumberPicker;
 
+import com.iadf.SystemController.DatabaseController.Furniture;
+import com.iadf.roommapapp.R;
+import com.iadf.roommapapp.RoomViewer;
 
 
+/**
+ * This Class creates the fragment that allows the user to input values
+ * and create a new furniture object.
+ * 
+ * @author CSE324 Spring 2014 Team 4
+ */
 public class CreateFurnitureDialog extends DialogFragment {
 	
 
@@ -64,8 +67,6 @@ public class CreateFurnitureDialog extends DialogFragment {
 	    lengthNP.setMaxValue(100000);
 	    lengthNP.setMinValue(1);
 	    lengthNP.setValue(100);
-	    
-	    ArrayList mSelectedItems = new ArrayList();
 	    
 		
 	    builder.setView(v)

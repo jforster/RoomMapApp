@@ -3,8 +3,7 @@ package com.iadf.roommapapp;
 
 import java.util.ArrayList;
 
-import com.iadf.SystemController.DatabaseController.Furniture;
-
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -14,28 +13,32 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
+import com.iadf.SystemController.DatabaseController.Furniture;
+
+/**
+ * Contains the canvas to draw the room and furniture
+ * 
+ * @author CSE324 Spring 2014 Team 4
+ */
 public class RoomCanvas extends Fragment {
-    @Override
+    
+	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
     	return (new RoomView(this.getActivity()));
-        //return inflater.inflate(R.layout.room_canvas, container, true);
     }
     
-    public void refresh() {
-    	
-    }
-    
-    
+    /**
+     * This class does the drawing when the room is opened or modified or when furniture
+     * is moved or modified
+     */
     public class RoomView extends View {
     	
     	private ArrayList<Furniture> furnitureItems;
@@ -45,6 +48,7 @@ public class RoomCanvas extends Fragment {
     	int width = 999999;
     	int height = 999999;
     	Furniture f;
+    	boolean canvasDrawn = false;
         
         public RoomView(Context context) {
         	super(context);
@@ -54,7 +58,10 @@ public class RoomCanvas extends Fragment {
             
         }
         
-        
+        /**
+         * returns a list of furniture contained within the room so that they can be drawn to the canvas
+         * @return the list of furniture
+         */
         public ArrayList<Furniture> createFurnitureList() {
         	ArrayList<Furniture> furniture = new ArrayList<Furniture>();
             
@@ -70,29 +77,28 @@ public class RoomCanvas extends Fragment {
             
             return furniture;
         }
-        
-        public boolean hasFurnitureChanged() {
-        	return !furnitureItems.equals(createFurnitureList());
-        }
          
-         // the method that draws the balls
-         @Override 
-         protected void onDraw(Canvas canvas) {
-             //canvas.drawColor(0xFFCCCCCC);     //if you want another background color     
-        	 
+         /**
+          * draws all furniture objects that are contained within the furniture list 
+          */
+         @SuppressLint("DrawAllocation")
+		 @Override 
+         protected void onDraw(Canvas canvas) {  
+  
         	width = canvas.getWidth();
           	height = canvas.getHeight();
           	
           	Paint paint = new Paint();
           	
-          	paint.setColor(Color.BLACK);
+      		paint.setColor(Color.BLACK);
             paint.setStrokeWidth(5);
             canvas.drawRect(95, 95, width - 95, height - 95, paint);
             paint.setColor(Color.WHITE);
             paint.setStrokeWidth(5);
             canvas.drawRect(100, 100, width - 100, height - 100, paint);
+            
+            canvasDrawn = true;
              
-         	//draw the balls on the canvas
          	for (Furniture furniture : furnitureItems) {
          		Bitmap bitmap;
          		if(furniture.getShape() == Furniture.OVAL) bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.oval);
@@ -104,6 +110,9 @@ public class RoomCanvas extends Fragment {
      
          }
          
+         /**
+          * determines where to draw the item based on X-coordinate in the database
+          */
          public int setX(int x) {
         	 if(x < 102) {
          		return 102;
@@ -113,6 +122,9 @@ public class RoomCanvas extends Fragment {
          	return x;
          }
          
+         /**
+          * determines where to draw the item based on Y-coordinate in the database
+          */
          public int setY(int y) {
          	if(y < 102) {
          		return 102;
@@ -122,7 +134,9 @@ public class RoomCanvas extends Fragment {
          	return y;
          }
 
-         // events when touching the screen
+         /**
+          * handles moving the furniture
+          */
          public boolean onTouchEvent(MotionEvent event) {
              int eventaction = event.getAction(); 
              
@@ -131,14 +145,11 @@ public class RoomCanvas extends Fragment {
 
              switch (eventaction ) { 
 
-             case MotionEvent.ACTION_DOWN: // touch down so check if the finger is on a ball
+             case MotionEvent.ACTION_DOWN: // checks if the touch is on a furniture item
             	i = -1;
              	for (Furniture furniture : furnitureItems) {
-             		// check if inside the bounds of the ball (circle)
-             		// get the center for the ball
              		Point p = furniture.getCenter();
 
-             		// check all the bounds of the ball (square)
              		if (X > p.x && X < p.x+furniture.getLength() && Y > p.y && Y < p.y+furniture.getWidth()){
                      	i = furnitureItems.indexOf(furniture);
                      	xOffset = furniture.getLength()/2 + 1;
@@ -150,27 +161,27 @@ public class RoomCanvas extends Fragment {
                   break; 
 
 
-             case MotionEvent.ACTION_MOVE:   // touch drag with the ball
-             	// move the balls the same as the finger
+             case MotionEvent.ACTION_MOVE:   // drags the furniture object updating its coordinates
                  if (i >= 0) {
                 	f = furnitureItems.get(i);
                 	f.setCenter(setX(X-xOffset), setY(Y-yOffset));
-                 	furnitureItems.set(i, f);
+                	furnitureItems.set(i, f);
                  	
                  }
              	
                  break; 
 
-             case MotionEvent.ACTION_UP: 
-            		// touch drop - just do things here after dropping
+             case MotionEvent.ACTION_UP: // update the database after the finger is taken off the screen
             	 xOffset = 25;
              	 yOffset = 25;
              	 if(f != null) {
-             		 RoomViewer.helper.modifyFurniture(RoomViewer.db, f);
+             		RoomViewer.helper.modifyFurniture(RoomViewer.db, f);
+             		furnitureItems = createFurnitureList();
              	 }
                  break; 
              } 
-             // redraw the canvas
+             
+             // redraws the canvas
              invalidate(); 
              return true; 
      	

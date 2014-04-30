@@ -9,11 +9,15 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.iadf.SystemController.DatabaseController.Furniture;
 import com.iadf.roommapapp.R;
 
+/**
+ * Allows the user to input a GUID and open the room containing that furniture item
+ * 
+ * @author CSE324 Spring 2014 Team 4
+ */
 public class LookupFurnitureDialog extends DialogFragment {
 	
 	

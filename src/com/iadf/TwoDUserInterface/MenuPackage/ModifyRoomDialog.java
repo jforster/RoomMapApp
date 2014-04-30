@@ -1,9 +1,6 @@
 package com.iadf.TwoDUserInterface.MenuPackage;
 
 
-import com.iadf.SystemController.DatabaseController.Furniture;
-import com.iadf.roommapapp.R;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -14,8 +11,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.NumberPicker;
 
+import com.iadf.SystemController.DatabaseController.Furniture;
+import com.iadf.roommapapp.R;
 
 
+/**
+ * Allows the user to change the dimension of a room
+ * 
+ * @author CSE324 Spring 2014 Team 4
+ */
 public class ModifyRoomDialog extends DialogFragment {
 
 	FurnitureListener mListener;
